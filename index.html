@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
-</head>S
+<link rel="stylesheet" href="/static/style.css" />
+</head>
 <body>
 
 <div class="noise-overlay" aria-hidden="true"></div>
@@ -26,6 +26,10 @@
   <!-- FORM PANEL -->
   <section class="panel form-panel" aria-labelledby="form-heading">
     <form id="predict-form" novalidate>
+      <div class="form-top">
+        <h2 id="form-heading">Your details</h2>
+        <button type="button" class="example-btn" id="example-btn">Try an example</button>
+      </div>
 
       <fieldset class="group">
         <legend><span class="legend-index">01</span> Profile</legend>
@@ -218,6 +222,7 @@
 
       <div class="state state-error" id="state-error" hidden>
         <div class="error-icon" aria-hidden="true">!</div>
+        <p class="error-label" id="error-label"></p>
         <p class="error-copy" id="error-copy"></p>
         <button type="button" class="reset-btn" id="error-retry-btn">Try again</button>
       </div>
@@ -231,6 +236,6 @@
   <p>Built for informational purposes only — this is not a clinical assessment. If you're struggling, please talk to someone you trust.</p>
 </footer>
 
-<script src="script.js"></script>
+<script src="/static/script.js"></script>
 </body>
 </html>

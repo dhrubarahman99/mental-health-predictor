@@ -30,6 +30,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 html { -webkit-font-smoothing: antialiased; }
 
@@ -126,6 +127,10 @@ body {
 }
 
 .form-panel { padding: 8px 32px 32px; }
+.form-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 24px; }
+.form-top h2 { margin: 0; font-size: 18px; color: var(--ink); }
+.example-btn { border: 1px solid var(--line); background: transparent; color: var(--pine); border-radius: 999px; padding: 8px 14px; font: 600 12px var(--font-body); cursor: pointer; }
+.example-btn:hover { background: var(--pine); color: #fff; }
 
 .result-panel {
   position: sticky;

@@ -1,12 +1,13 @@
 (() => {
   "use strict";
 
-  const API_BASE = "https://mansik-santulan-score.onrender.com";
+  const PREDICT_ENDPOINT = "/predict";
 
   const form = document.getElementById("predict-form");
   const submitBtn = document.getElementById("submit-btn");
   const resetBtn = document.getElementById("reset-btn");
   const errorRetryBtn = document.getElementById("error-retry-btn");
+  const exampleBtn = document.getElementById("example-btn");
 
   const stateIdle = document.getElementById("state-idle");
   const stateLoading = document.getElementById("state-loading");
@@ -58,6 +59,31 @@
       stressHiddenInput.value = btn.dataset.value;
       clearFieldError(stressHiddenInput);
     });
+  });
+
+  exampleBtn.addEventListener("click", () => {
+    const example = {
+      age: 21,
+      gender: "Female",
+      country: "India",
+      academic_level: "Undergraduate",
+      most_used_platform: "Instagram",
+      purpose_of_use: "Entertainment",
+      avg_daily_usage_hours: 3.5,
+      daily_unlocks: 65,
+      study_hours: 4,
+      physical_activity_hours: 1,
+      sleep_hours_per_night: 7,
+    };
+    Object.entries(example).forEach(([key, value]) => {
+      form.elements[key].value = value;
+    });
+    stressHiddenInput.value = "Medium";
+    segGroup.querySelectorAll(".seg-btn").forEach((button) => {
+      button.classList.toggle("active", button.dataset.value === "Medium");
+    });
+    clearAllErrors();
+    showState("idle");
   });
 
   // ---------------------------------------------------------
@@ -161,22 +187,10 @@
     submitBtn.classList.toggle("loading", isSubmitting);
   }
 
-  function bandFor(score) {
-    if (score < 4) {
-      return {
-        label: "Signal: strained",
-        context: "Your responses suggest elevated strain right now. Small shifts in sleep or screen time can go a long way.",
-      };
-    }
-    if (score < 7) {
-      return {
-        label: "Signal: balanced",
-        context: "Your rhythm looks fairly steady, with some room to recover and reset.",
-      };
-    }
+  function bandFor() {
     return {
-      label: "Signal: strong",
-      context: "Your habits point to a well-supported, resilient baseline. Keep it up.",
+      label: "Estimated dataset score",
+      context: "This estimate reflects patterns in the training data. It is not a diagnosis or a measure of your clinical health.",
     };
   }
 
@@ -245,7 +259,7 @@
     showState("loading");
 
     try {
-      const res = await fetch(`${API_BASE}/predict`, {
+      const res = await fetch(PREDICT_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -281,7 +295,7 @@
     } catch (err) {
       renderError(
         "Can't reach the server",
-        `Couldn't connect to ${API_BASE}. Make sure the backend is running (uvicorn main:app --port 2200 --reload) and reachable from this page.`
+        "The prediction service could not be reached. Please try again shortly."
       );
     } finally {
       setSubmitting(false);
